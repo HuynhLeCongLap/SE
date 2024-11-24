@@ -1,8 +1,8 @@
 Để thực hiện yêu cầu bài toán Bank Statement Analyzer (BSA) và củng cố kiến thức về các nguyên lý thiết kế phần mềm như Single Responsibility Principle (SRP), Cohesion, và Coupling, tôi sẽ tiến hành theo các bước sau:
 
 Bước 1: Phân tích bài toán và giải pháp
-Mô tả Bài toán:
-Ứng dụng Bank Statement Analyzer (BSA) sẽ giúp người dùng phân tích các giao dịch ngân hàng trong một bảng sao kê (bank statement) dạng CSV. Các yêu cầu chính của bài toán bao gồm:
+-Mô tả Bài toán:
+*Ứng dụng Bank Statement Analyzer (BSA) sẽ giúp người dùng phân tích các giao dịch ngân hàng trong một bảng sao kê (bank statement) dạng CSV. Các yêu cầu chính của bài toán bao gồm:
 
 -Tính tổng lợi nhuận/tổn thất từ các giao dịch.
 -Đếm số giao dịch trong một tháng cụ thể.
