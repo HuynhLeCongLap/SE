@@ -4,19 +4,19 @@ Bước 1: Phân tích bài toán và giải pháp
 Mô tả Bài toán:
 Ứng dụng Bank Statement Analyzer (BSA) sẽ giúp người dùng phân tích các giao dịch ngân hàng trong một bảng sao kê (bank statement) dạng CSV. Các yêu cầu chính của bài toán bao gồm:
 
-Tính tổng lợi nhuận/tổn thất từ các giao dịch.
-Đếm số giao dịch trong một tháng cụ thể.
-Lấy 10 khoản chi lớn nhất.
-Xác định danh mục chi tiêu nhiều nhất.
+-Tính tổng lợi nhuận/tổn thất từ các giao dịch.
+-Đếm số giao dịch trong một tháng cụ thể.
+-Lấy 10 khoản chi lớn nhất.
+-Xác định danh mục chi tiêu nhiều nhất.
 Bước 2: Đề xuất Giải pháp
-Giải pháp sẽ được triển khai bằng ngôn ngữ Java dưới dạng ứng dụng command line, với các lớp có trách nhiệm rõ ràng. Mỗi lớp sẽ thực hiện một nhiệm vụ cụ thể, tuân thủ các nguyên lý Single Responsibility Principle (SRP) và thiết kế với Cohesion cao và Coupling thấp.
+-Giải pháp sẽ được triển khai bằng ngôn ngữ Java dưới dạng ứng dụng command line, với các lớp có trách nhiệm rõ ràng. Mỗi lớp sẽ thực hiện một nhiệm vụ cụ thể, tuân thủ các nguyên lý Single Responsibility Principle (SRP) và thiết kế với Cohesion cao và Coupling thấp.
 
 Bước 3: Xây dựng mã nguồn Java
-Chúng ta sẽ xây dựng ứng dụng với các lớp chính như sau:
+-Chúng ta sẽ xây dựng ứng dụng với các lớp chính như sau:
 
-Transaction: Lớp đại diện cho một giao dịch ngân hàng.
-BankStatementAnalyzer: Lớp chịu trách nhiệm đọc và phân tích các giao dịch.
-Main: Lớp chính chạy ứng dụng.
++Transaction: Lớp đại diện cho một giao dịch ngân hàng.
++BankStatementAnalyzer: Lớp chịu trách nhiệm đọc và phân tích các giao dịch.
++Main: Lớp chính chạy ứng dụng.
 
 ***BankStatementAnalyzer.java
 import java.io.BufferedReader;
@@ -167,11 +167,7 @@ public class BankStatementAnalyzer {
 02-02-2017,-4000,Rent
 03-02-2017,3000,Tesco
 05-02-2017,-30,Cinema
-
-
-
 Bước 4: Sơ đồ UML
-
 
 ![Diagram](https://www.planttext.com/api/plantuml/png/T99DJiCm48NtESKego2r2xO8eHOAgu8gfHSO4ZUrSCQHFP4eY9Enu4XSWN7Yq5HflOWrB_E--P5_ltyMdj5nMviaAGnw3rk7vB5WRGa-4v0pNo4hAENJXwLjNuq2h6rBt4ivEqqLbCeNJZV1s-bZMFPFcS49OGPJzrLlxooLud1dKOjUKPUTVT0Z96GVEVBpQnZi7kajPo7LYdX9Q0uVoWqZhhNdsr6tTy37mFSLpWAoM7UdZTeWxsCtKvwnM8u4Vy4OnolG5AsHMXjdTvhNrljXK6F5LOJHnxWdwvujyNx0rY6us8niQMkRn_T6aLS-qyJ0jdcPh5AISiaf9NoGPYhh3lrApoyplKvXFeUKqfDdT2Fj4gEMHIOBeONNzWS00F__0m00)
 
