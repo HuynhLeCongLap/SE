@@ -173,13 +173,13 @@ Bước 4: Sơ đồ UML
 
 
 Bước 5: Giải thích về SRP, Cohesion và Coupling
-Single Responsibility Principle (SRP):
+-Single Responsibility Principle (SRP):
 
-Transaction: Lớp này chỉ xử lý dữ liệu giao dịch (ngày, số tiền, mô tả), tuân thủ SRP.
-BankStatementAnalyzer: Lớp này chỉ chịu trách nhiệm đọc và xử lý dữ liệu từ bảng sao kê, thực hiện các phép toán phân tích như tính tổng lợi nhuận/tổn thất, đếm giao dịch, v.v.
+-Transaction: Lớp này chỉ xử lý dữ liệu giao dịch (ngày, số tiền, mô tả), tuân thủ SRP.
+-BankStatementAnalyzer: Lớp này chỉ chịu trách nhiệm đọc và xử lý dữ liệu từ bảng sao kê, thực hiện các phép toán phân tích như tính tổng lợi nhuận/tổn thất, đếm giao dịch, v.v.
 Cohesion:
 
-Mỗi lớp có tính kết hợp cao, tức là các phương thức trong mỗi lớp làm việc chặt chẽ với nhau. Lớp Transaction chỉ làm việc với các thuộc tính của giao dịch, và lớp BankStatementAnalyzer chỉ làm việc với danh sách các giao dịch và thực hiện phân tích.
+-Mỗi lớp có tính kết hợp cao, tức là các phương thức trong mỗi lớp làm việc chặt chẽ với nhau. Lớp Transaction chỉ làm việc với các thuộc tính của giao dịch, và lớp BankStatementAnalyzer chỉ làm việc với danh sách các giao dịch và thực hiện phân tích.
 Coupling:
 
-Các lớp có sự kết nối thấp giữa chúng. Lớp BankStatementAnalyzer phụ thuộc vào lớp Transaction nhưng chỉ sử dụng thông tin cơ bản từ Transaction, không có phụ thuộc phức tạp nào.
+-Các lớp có sự kết nối thấp giữa chúng. Lớp BankStatementAnalyzer phụ thuộc vào lớp Transaction nhưng chỉ sử dụng thông tin cơ bản từ Transaction, không có phụ thuộc phức tạp nào.
