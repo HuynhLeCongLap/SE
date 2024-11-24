@@ -1,0 +1,174 @@
+Để thực hiện yêu cầu bài toán Bank Statement Analyzer (BSA) và củng cố kiến thức về các nguyên lý thiết kế phần mềm như Single Responsibility Principle (SRP), Cohesion, và Coupling, tôi sẽ tiến hành theo các bước sau:
+
+Bước 1: Phân tích bài toán và giải pháp
+Mô tả Bài toán:
+Ứng dụng Bank Statement Analyzer (BSA) sẽ giúp người dùng phân tích các giao dịch ngân hàng trong một bảng sao kê (bank statement) dạng CSV. Các yêu cầu chính của bài toán bao gồm:
+
+Tính tổng lợi nhuận/tổn thất từ các giao dịch.
+Đếm số giao dịch trong một tháng cụ thể.
+Lấy 10 khoản chi lớn nhất.
+Xác định danh mục chi tiêu nhiều nhất.
+Bước 2: Đề xuất Giải pháp
+Giải pháp sẽ được triển khai bằng ngôn ngữ Java dưới dạng ứng dụng command line, với các lớp có trách nhiệm rõ ràng. Mỗi lớp sẽ thực hiện một nhiệm vụ cụ thể, tuân thủ các nguyên lý Single Responsibility Principle (SRP) và thiết kế với Cohesion cao và Coupling thấp.
+
+Bước 3: Xây dựng mã nguồn Java
+Chúng ta sẽ xây dựng ứng dụng với các lớp chính như sau:
+
+Transaction: Lớp đại diện cho một giao dịch ngân hàng.
+BankStatementAnalyzer: Lớp chịu trách nhiệm đọc và phân tích các giao dịch.
+Main: Lớp chính chạy ứng dụng.
+
+***BankStatementAnalyzer.java
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class BankStatementAnalyzer {
+    private List<Transaction> transactions;
+
+    public BankStatementAnalyzer(String filePath) throws IOException {
+        transactions = loadTransactions(filePath);
+    }
+
+    
+    private List<Transaction> loadTransactions(String filePath) throws IOException {
+        List<Transaction> transactions = new ArrayList<>();
+        BufferedReader reader = new BufferedReader(new FileReader(filePath));
+        String line;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+
+        while ((line = reader.readLine()) != null) {
+            String[] fields = line.split(",");
+            try {
+                Date date = sdf.parse(fields[0]);
+                double amount = Double.parseDouble(fields[1]);
+                String description = fields[2];
+                transactions.add(new Transaction(date, amount, description));
+            } catch (Exception e) {
+                System.out.println("Error parsing line: " + line);
+            }
+        }
+        reader.close();
+        return transactions;
+    }
+
+   
+    public double calculateProfitLoss() {
+        return transactions.stream().mapToDouble(Transaction::getAmount).sum();
+    }
+
+  
+    public long countTransactionsForMonth(String month) {
+        return transactions.stream()
+                .filter(t -> new SimpleDateFormat("MM-yyyy").format(t.getDate()).equals(month))
+                .count();
+    }
+
+ 
+    public List<Transaction> getTopExpenses(int topN) {
+        return transactions.stream()
+                .filter(t -> t.getAmount() < 0)  // Chỉ xét các khoản chi
+                .sorted(Comparator.comparingDouble(Transaction::getAmount))
+                .limit(topN)
+                .collect(Collectors.toList());
+    }
+
+    
+    public String getTopSpendingCategory() {
+        Map<String, Double> categoryTotals = new HashMap<>();
+
+        for (Transaction t : transactions) {
+            if (t.getAmount() < 0) {  // Chỉ xem xét các khoản chi
+                categoryTotals.merge(t.getDescription(), t.getAmount(), Double::sum);
+            }
+        }
+
+        return categoryTotals.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse("Không có chi tiêu");
+    }
+
+    public static void main(String[] args) {
+        try {
+            BankStatementAnalyzer analyzer = new BankStatementAnalyzer("bank_statements.csv");
+
+            
+            double totalProfitLoss = analyzer.calculateProfitLoss();
+            System.out.println("1.Total Profit/Loss: " + totalProfitLoss);
+            System.out.println("Status: " + (totalProfitLoss >= 0 ? "Positive" : "Negative"));
+
+            
+            long februaryTransactions = analyzer.countTransactionsForMonth("02-2017");
+            System.out.println("2.Transactions in February 2017: " + februaryTransactions);
+
+           
+            List<Transaction> topExpenses = analyzer.getTopExpenses(10);
+            System.out.println("3.Top 10 Expenses:");
+            topExpenses.forEach(System.out::println);
+
+            
+            String topCategory = analyzer.getTopSpendingCategory();
+            System.out.println("4.Category with most spending:" + topCategory);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+   public class Transaction {
+    Date date;
+    double amount;
+    String description;
+
+    public Transaction(Date date, double amount, String description) {
+        this.date = date;
+        this.amount = amount;
+        this.description = description;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "date=" + date +
+                ", amount=" + amount +
+                ", description='" + description + '\'' +
+                '}';
+    }
+
+
+        public String getDateString() {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            return sdf.format(date);
+        }
+    }
+}
+
+***bank_statements.csv
+30-01-2017,-100,Deliveroo
+30-01-2017,-50,Tesco
+01-02-2017,6000,Salary
+02-02-2017,2000,Royalties
+02-02-2017,-4000,Rent
+03-02-2017,3000,Tesco
+05-02-2017,-30,Cinema
+
+
+
+Bước 4: Sơ đồ UML
+![diagram](https://www.planttext.com/api/plantuml/png/T99DJiCm48NtESKego2r2xO8eHOAgu8gfHSO4ZUrSCQHFP4eY9Enu4XSWN7Yq5HflOWrB_E--P5_ltyMdj5nMviaAGnw3rk7vB5WRGa-4v0pNo4hAENJXwLjNuq2h6rBt4ivEqqLbCeNJZV1s-bZMFPFcS49OGPJzrLlxooLud1dKOjUKPUTVT0Z96GVEVBpQnZi7kajPo7LYdX9Q0uVoWqZhhNdsr6tTy37mFSLpWAoM7UdZTeWxsCtKvwnM8u4Vy4OnolG5AsHMXjdTvhNrljXK6F5LOJHnxWdwvujyNx0rY6us8niQMkRn_T6aLS-qyJ0jdcPh5AISiaf9NoGPYhh3lrApoyplKvXFeUKqfDdT2Fj4gEMHIOBeONNzWS00F__0m00)
